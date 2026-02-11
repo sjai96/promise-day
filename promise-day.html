@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>PromiseAPI v1.0 – For You 💖</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #050716;
+      --bg2: #101328;
+      --card: #171b31;
+      --accent: #ff7bbf;
+      --accent-soft: rgba(255, 123, 191, 0.18);
+      --text: #f7f7ff;
+      --muted: #a5acc7;
+      --code: #1f243b;
+      --shadow: 0 18px 50px rgba(0, 0, 0, 0.65);
+      --success: #42f59b;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #383f7a 0, #050716 40%, #02030a 100%);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 14px;
+    }
+
+    .frame {
+      width: 100%;
+      max-width: 460px; /* Mobile-first: narrow, intimate card */
+      background: linear-gradient(145deg, rgba(255, 255, 255, 0.08), rgba(0, 0, 0, 0.8));
+      border-radius: 26px;
+      padding: 18px 16px 16px;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(18px);
+      position: relative;
+      overflow: hidden;
+
+      /* Entry animation */
+      opacity: 0;
+      transform: translateY(18px) scale(0.98);
+      animation: frame-in 0.7s ease-out forwards;
+    }
+
+    /* Floating hearts */
+    .frame::before,
+    .frame::after {
+      content: "❤";
+      position: absolute;
+      font-size: 60px;
+      opacity: 0.12;
+      pointer-events: none;
+      animation: float-heart 7s ease-in-out infinite;
+    }
+
+    .frame::before {
+      top: 6%;
+      right: 4%;
+    }
+
+    .frame::after {
+      bottom: -8%;
+      left: -4%;
+      transform: rotate(-15deg);
+      font-size: 80px;
+      animation-delay: 1.5s;
+    }
+
+    header {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 16px;
+      animation: fade-up 0.7s ease-out 0.1s both;
+    }
+
+    .badge-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .badge {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(0, 0, 0, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: var(--muted);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .badge-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: var(--success);
+      box-shadow: 0 0 8px var(--success);
+    }
+
+    .title-row {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .title-block h1 {
+      font-size: 1.5rem;
+      letter-spacing: 0.03em;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .title-block h1 span.highlight {
+      background: linear-gradient(90deg, #ff9ad0, #ffce9a);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .title-block p {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-top: 2px;
+      line-height: 1.4;
+    }
+
+    .meta {
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    .meta strong {
+      color: var(--accent);
+    }
+
+    .meta span.small {
+      display: block;
+      font-size: 0.75rem;
+      margin-top: 3px;
+    }
+
+    main {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 4px;
+    }
+
+    .section {
+      background: radial-gradient(circle at top left, rgba(255, 123, 191, 0.16), rgba(0, 0, 0, 0.85));
+      border-radius: 20px;
+      padding: 12px 10px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .section h2 {
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.13em;
+      font-weight: 600;
+      color: var(--muted);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section h2 span.marker {
+      width: 9px;
+      height: 9px;
+      border-radius: 999px;
+      background: var(--accent);
+      box-shadow: 0 0 10px var(--accent);
+    }
+
+    .promise-card {
+      background: linear-gradient(135deg, rgba(8, 10, 25, 0.92), rgba(13, 17, 40, 0.98));
+      border-radius: 15px;
+      padding: 9px 10px;
+      margin-bottom: 7px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      position: relative;
+      overflow: hidden;
+
+      opacity: 0;
+      transform: translateY(20px);
+      animation: card-in 0.7s ease-out forwards;
+    }
+
+    /* Staggered animation for nicer entry */
+    .section:first-of-type .promise-card:nth-child(2) { animation-delay: 0.25s; }
+    .section:first-of-type .promise-card:nth-child(3) { animation-delay: 0.35s; }
+    .section:first-of-type .promise-card:nth-child(4) { animation-delay: 0.45s; }
+    .section:first-of-type .promise-card:nth-child(5) { animation-delay: 0.55s; }
+    .section:first-of-type .promise-card:nth-child(6) { animation-delay: 0.65s; }
+
+    .section:last-of-type .promise-card:nth-child(2) { animation-delay: 0.4s; }
+    .section:last-of-type .promise-card:nth-child(3) { animation-delay: 0.5s; }
+    .section:last-of-type .promise-card:nth-child(4) { animation-delay: 0.6s; }
+    .section:last-of-type .promise-card:nth-child(5) { animation-delay: 0.7s; }
+
+    .promise-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: radial-gradient(circle at top right, rgba(255, 123, 191, 0.16), transparent 55%);
+      opacity: 0.8;
+    }
+
+    .endpoint {
+      font-family: "JetBrains Mono", Menlo, Monaco, Consolas, "SF Mono", monospace;
+      font-size: 0.76rem;
+      color: var(--accent);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 5px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .endpoint span.method {
+      text-transform: uppercase;
+      padding: 3px 7px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      font-size: 0.65rem;
+      color: var(--muted);
+    }
+
+    .promise-text {
+      font-size: 0.84rem;
+      color: var(--text);
+      line-height: 1.4;
+      position: relative;
+      z-index: 1;
+    }
+
+    .promise-text span.flirt {
+      color: #ffd2f1;
+      font-style: italic;
+    }
+
+    pre {
+      background: var(--code);
+      border-radius: 12px;
+      padding: 8px 9px;
+      margin-top: 7px;
+      overflow-x: auto;
+      font-size: 0.76rem;
+      color: #e5e7ff;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      position: relative;
+      z-index: 1;
+    }
+
+    code {
+      font-family: "JetBrains Mono", Menlo, Monaco, Consolas, "SF Mono", monospace;
+      white-space: pre;
+    }
+
+    .notes {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-top: 6px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .heart-list {
+      list-style: none;
+      margin-top: 6px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .heart-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
+      margin-bottom: 4px;
+      font-size: 0.82rem;
+      color: var(--text);
+    }
+
+    .heart-list li span.icon {
+      color: var(--accent);
+      margin-top: 1px;
+    }
+
+    .footer {
+      margin-top: 14px;
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      justify-content: flex-start;
+      flex-direction: column;
+      padding-top: 8px;
+      border-top: 1px dashed rgba(255, 255, 255, 0.12);
+      animation: fade-up 0.7s ease-out 0.4s both;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #ff7bbf, #ffb27b);
+      color: #1a1021;
+      border: none;
+      padding: 9px 18px;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 12px 34px rgba(0, 0, 0, 0.75);
+      white-space: nowrap;
+      position: relative;
+      overflow: hidden;
+
+      /* Button animation */
+      animation: pulse-soft 2.2s ease-in-out infinite;
+      transform-origin: center;
+    }
+
+    .btn-primary::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top left, rgba(255, 255, 255, 0.22), transparent 55%);
+      opacity: 0;
+      transition: opacity 0.18s ease;
+      pointer-events: none;
+    }
+
+    .btn-primary span.emoji {
+      font-size: 1.1rem;
+    }
+
+    .btn-primary:hover::after {
+      opacity: 1;
+    }
+
+    .btn-primary:active {
+      transform: scale(0.97);
+      box-shadow: 0 8px 22px rgba(0, 0, 0, 0.8);
+    }
+
+    .footer-text {
+      font-size: 0.8rem;
+      color: var(--muted);
+      max-width: 360px;
+      line-height: 1.4;
+    }
+
+    .footer-text strong {
+      color: var(--accent);
+    }
+
+    .status-pill {
+      margin-top: 8px;
+      padding: 4px 9px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      background: rgba(4, 233, 140, 0.06);
+      border: 1px solid rgba(4, 233, 140, 0.4);
+      color: var(--success);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+
+      animation: glow-soft 2.8s ease-in-out infinite;
+    }
+
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: var(--success);
+      box-shadow: 0 0 8px var(--success);
+    }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 14px;
+      transform: translateX(-50%) translateY(40px);
+      background: #15172b;
+      border-radius: 14px;
+      padding: 10px 13px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      box-shadow: var(--shadow);
+      display: none;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.8rem;
+      max-width: 280px;
+      z-index: 50;
+      text-align: left;
+    }
+
+    .toast span.heart {
+      font-size: 1.1rem;
+    }
+
+    .toast strong {
+      color: var(--accent);
+      display: block;
+      margin-bottom: 3px;
+    }
+
+    /* Animations */
+    @keyframes frame-in {
+      from {
+        opacity: 0;
+        transform: translateY(18px) scale(0.96);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    @keyframes fade-up {
+      from {
+        opacity: 0;
+        transform: translateY(14px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes card-in {
+      from {
+        opacity: 0;
+        transform: translateY(18px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes float-heart {
+      0% {
+        transform: translateY(0) translateX(0) scale(1);
+      }
+      50% {
+        transform: translateY(-8px) translateX(4px) scale(1.06);
+      }
+      100% {
+        transform: translateY(0) translateX(0) scale(1);
+      }
+    }
+
+    @keyframes pulse-soft {
+      0%,
+      100% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.03);
+      }
+    }
+
+    @keyframes glow-soft {
+      0%,
+      100% {
+        box-shadow: 0 0 12px rgba(4, 233, 140, 0.35);
+      }
+      50% {
+        box-shadow: 0 0 20px rgba(4, 233, 140, 0.7);
+      }
+    }
+
+    @keyframes toast-in {
+      0% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(40px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
+    }
+
+    @keyframes toast-out {
+      0% {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
+      100% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(40px);
+      }
+    }
+
+    /* Larger screens: enhance layout */
+    @media (min-width: 768px) {
+      body {
+        padding: 22px;
+      }
+
+      .frame {
+        max-width: 920px;
+      }
+
+      .title-row {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-start;
+      }
+
+      main {
+        display: grid;
+        grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+        gap: 16px;
+      }
+
+      .footer {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .footer-text {
+        max-width: 420px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="frame">
+    <header>
+      <div class="badge-row">
+        <div class="badge">
+          <span class="badge-dot"></span>
+          PromiseAPI v1.0
+        </div>
+        <div class="badge">
+          Happy Promise Day 💖
+        </div>
+      </div>
+
+      <div class="title-row">
+        <div class="title-block">
+          <h1>
+            <!-- You can replace "Favorite Human" with her name -->
+            <span class="highlight">For My Favorite Human</span>
+            <span>🧡</span>
+          </h1>
+          <p>
+            This is the official API documentation of my promises to you.
+            No bugs, no rollbacks, and yes… it comes with lifetime support (and unlimited cuddles).
+          </p>
+        </div>
+        <div class="meta">
+          <div><strong>Status:</strong> 200 OK</div>
+          <span class="small">
+            Uptime target: ∞ days with you.<br />
+            Breaking change policy: <strong>Never.</strong>
+          </span>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <!-- Left: Promise Endpoints -->
+      <section class="section">
+        <h2>
+          <span class="marker"></span>
+          Promise Endpoints
+        </h2>
+
+        <article class="promise-card">
+          <div class="endpoint">
+            <div>GET /support</div>
+            <span class="method">RELATION-SAFE</span>
+          </div>
+          <div class="promise-text">
+            I promise to be there on your <span class="flirt">messy hair, sleepy eyes, “don’t-talk-to-me” days</span>,
+            not just on the cute selfie days. When life throws exceptions at you, I’ll be your
+            try-catch block.
+          </div>
+          <pre><code>{
+  "description": "Standing by your side, no matter what.",
+  "behavior": "hold_hand, listen, hug, repeat",
+  "note": "You never have to fight anything alone again."
+}</code></pre>
+        </article>
+
+        <article class="promise-card">
+          <div class="endpoint">
+            <div>POST /communication</div>
+            <span class="method">OPEN-CHANNEL</span>
+          </div>
+          <div class="promise-text">
+            I promise to talk it out, not time out.
+            I’ll listen when you’re angry, overthink with you when you’re anxious,
+            and tease you gently when you’re being an adorable drama queen.
+          </div>
+          <pre><code>{
+  "rules": [
+    "no silent treatment",
+    "no 'I'm fine' bugs left unresolved",
+    "more 'let's fix this together'"
+  ],
+  "bonus": "free forehead kisses while we debug feelings"
+}</code></pre>
+        </article>
+
+        <article class="promise-card">
+          <div class="endpoint">
+            <div>PATCH /growth</div>
+            <span class="method">EVERGREEN</span>
+          </div>
+          <div class="promise-text">
+            I promise we’ll grow <span class="flirt">with</span> each other, not away from each other.
+            New dreams, new cities, new versions of us — I want every update with you in the changelog.
+          </div>
+          <pre><code>{
+  "changelog": [
+    "v1.0 – we met",
+    "v2.0 – we fell in love",
+    "v∞ – still holding your hand when we're old"
+  ],
+  "compatibility": "100% with your ambitions"
+}</code></pre>
+        </article>
+
+        <article class="promise-card">
+          <div class="endpoint">
+            <div>GET /respect</div>
+            <span class="method">NON-NEGOTIABLE</span>
+          </div>
+          <div class="promise-text">
+            I promise to respect your boundaries, your space, your pace, and your dreams.
+            Your feelings won’t be treated as low priority tickets — they’re always critical, always mine to care for.
+          </div>
+          <pre><code>{
+  "priority": "you & your peace of mind",
+  "never": ["disrespect", "belittling", "taking you for granted"],
+  "always": ["hype you", "protect you", "choose you"]
+}</code></pre>
+        </article>
+
+        <article class="promise-card">
+          <div class="endpoint">
+            <div>DELETE /ego</div>
+            <span class="method">ONE-TIME OP</span>
+          </div>
+          <div class="promise-text">
+            I promise to choose <span class="flirt">us</span> over my ego.
+            Even when I’m right (which is… sometimes 😏), you are more important than winning an argument.
+          </div>
+          <pre><code>{
+  "deleted": ["ego", "unnecessary attitude"],
+  "kept": ["playful teasing", "flirting", "soft 'I'm sorry' hugs"],
+  "goal": "two teammates, one team"
+}</code></pre>
+        </article>
+      </section>
+
+      <!-- Right: Error Handling & Cute Stuff -->
+      <section class="section">
+        <h2>
+          <span class="marker"></span>
+          Error Handling & Edge Cases
+        </h2>
+
+        <article class="promise-card">
+          <div class="endpoint">
+            <div>ERROR 500 – Bad Day Detected</div>
+            <span class="method">AUTO-RECOVERY</span>
+          </div>
+          <div class="promise-text">
+            When your mood crashes, system overheats, or you say
+            “leave me alone” but your eyes say “please stay”…
+            my fallback strategy will auto-trigger:
+          </div>
+          <ul class="heart-list">
+            <li>
+              <span class="icon">💗</span>
+              <span>Activate: silent side hugs + hair playing module.</span>
+            </li>
+            <li>
+              <span class="icon">🍫</span>
+              <span>Deploy snacks / coffee / chocolate as required.</span>
+            </li>
+            <li>
+              <span class="icon">👂</span>
+              <span>Listener mode: ON. Judgement: OFF.</span>
+            </li>
+            <li>
+              <span class="icon">😘</span>
+              <span>Emergency patch: forehead & cheek kisses until smile returns.</span>
+            </li>
+          </ul>
+          <div class="notes">
+            If issues persist, I will hold you tighter and repeat:
+            <span class="flirt">"You’re my favorite person, and I’m not going anywhere."</span>
+          </div>
+        </article>
+
+        <article class="promise-card">
+          <div class="endpoint">
+            <div>SECURITY /loyalty</div>
+            <span class="method">STRICT</span>
+          </div>
+          <div class="promise-text">
+            This heart has a single authorized user:
+            <span class="flirt">you</span>.  
+            No backups, no replicas, no shared access.
+          </div>
+          <pre><code>{
+  "heart_owner": "you",
+  "auth_type": "permanent",
+  "policy": "no third-party access ever"
+}</code></pre>
+        </article>
+
+        <article class="promise-card">
+          <div class="endpoint">
+            <div>FUN /play</div>
+            <span class="method">ALWAYS-ON</span>
+          </div>
+          <div class="promise-text">
+            I promise random memes, bad jokes, flirting in between serious texts,
+            and stealing kisses when you’re “busy” but look too cute to ignore.
+          </div>
+          <pre><code>{
+  "random_events": [
+    "late-night 'I miss you' pings",
+    "sudden 'get ready, we’re going out' plans",
+    "unprovoked compliments about how hot you look"
+  ],
+  "side_effects": "blushing, butterflies, excessive smiling"
+}</code></pre>
+        </article>
+
+        <article class="promise-card">
+          <div class="endpoint">
+            <div>DEPLOY /lifetime</div>
+            <span class="method">ONE-COMMIT</span>
+          </div>
+          <div class="promise-text">
+            I promise that this isn’t a demo build.  
+            This is the long-term, stable, LTS version of us.  
+            <span class="flirt">And yes, I fully intend to keep loving you in every update.</span>
+          </div>
+          <div class="notes">
+            TL;DR: No uninstall option. No expiry. Just you, me, and an endless roadmap together.
+          </div>
+        </article>
+
+        <div class="status-pill">
+          <span class="status-dot"></span>
+          PromiseAPI deployed to: my heart 💗
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <button class="btn-primary" id="deployButton">
+        <span class="emoji">🚀</span>
+        <span>Deploy Promises</span>
+      </button>
+      <div class="footer-text">
+        <strong>Happy Promise Day, love.</strong><br />
+        This isn’t just cute dev talk — it’s my real commitment to you.
+        Consider this my signed contract to keep choosing you, every single day.
+      </div>
+    </footer>
+  </div>
+
+  <div class="toast" id="toast">
+    <span class="heart">💞</span>
+    <div>
+      <strong>Deployment successful.</strong>
+      Your promises are now live in production: my life with you.
+    </div>
+  </div>
+
+  <script>
+    const deployBtn = document.getElementById("deployButton");
+    const toast = document.getElementById("toast");
+    let toastTimeout;
+
+    function showToast() {
+      toast.style.display = "flex";
+      toast.style.animation = "toast-in 0.35s ease-out forwards";
+      clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => {
+        toast.style.animation = "toast-out 0.3s ease-in forwards";
+        setTimeout(() => {
+          toast.style.display = "none";
+        }, 280);
+      }, 3300);
+    }
+
+    deployBtn.addEventListener("click", () => {
+      showToast();
+    });
+  </script>
+</body>
+</html>
