@@ -2,18 +2,15 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>PromiseAPI v1.0 – For You 💖</title>
+  <title>My Promises To You 💖</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
     :root {
       --bg: #050716;
-      --bg2: #101328;
       --card: #171b31;
       --accent: #ff7bbf;
-      --accent-soft: rgba(255, 123, 191, 0.18);
       --text: #f7f7ff;
       --muted: #a5acc7;
-      --code: #1f243b;
       --shadow: 0 18px 50px rgba(0, 0, 0, 0.65);
       --success: #42f59b;
     }
@@ -37,8 +34,8 @@
 
     .frame {
       width: 100%;
-      max-width: 460px; /* Mobile-first: narrow, intimate card */
-      background: linear-gradient(145deg, rgba(255, 255, 255, 0.08), rgba(0, 0, 0, 0.8));
+      max-width: 460px;
+      background: linear-gradient(145deg, rgba(255, 255, 255, 0.08), rgba(0, 0, 0, 0.85));
       border-radius: 26px;
       padding: 18px 16px 16px;
       box-shadow: var(--shadow);
@@ -47,7 +44,6 @@
       position: relative;
       overflow: hidden;
 
-      /* Entry animation */
       opacity: 0;
       transform: translateY(18px) scale(0.98);
       animation: frame-in 0.7s ease-out forwards;
@@ -205,12 +201,11 @@
       animation: card-in 0.7s ease-out forwards;
     }
 
-    /* Staggered animation for nicer entry */
+    /* Staggered animation */
     .section:first-of-type .promise-card:nth-child(2) { animation-delay: 0.25s; }
     .section:first-of-type .promise-card:nth-child(3) { animation-delay: 0.35s; }
     .section:first-of-type .promise-card:nth-child(4) { animation-delay: 0.45s; }
     .section:first-of-type .promise-card:nth-child(5) { animation-delay: 0.55s; }
-    .section:first-of-type .promise-card:nth-child(6) { animation-delay: 0.65s; }
 
     .section:last-of-type .promise-card:nth-child(2) { animation-delay: 0.4s; }
     .section:last-of-type .promise-card:nth-child(3) { animation-delay: 0.5s; }
@@ -226,25 +221,12 @@
       opacity: 0.8;
     }
 
-    .endpoint {
-      font-family: "JetBrains Mono", Menlo, Monaco, Consolas, "SF Mono", monospace;
-      font-size: 0.76rem;
-      color: var(--accent);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 5px;
+    .promise-title {
+      font-weight: 600;
+      font-size: 0.9rem;
+      margin-bottom: 4px;
       position: relative;
       z-index: 1;
-    }
-
-    .endpoint span.method {
-      text-transform: uppercase;
-      padding: 3px 7px;
-      border-radius: 999px;
-      border: 1px solid rgba(255, 255, 255, 0.16);
-      font-size: 0.65rem;
-      color: var(--muted);
     }
 
     .promise-text {
@@ -260,28 +242,10 @@
       font-style: italic;
     }
 
-    pre {
-      background: var(--code);
-      border-radius: 12px;
-      padding: 8px 9px;
-      margin-top: 7px;
-      overflow-x: auto;
-      font-size: 0.76rem;
-      color: #e5e7ff;
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      position: relative;
-      z-index: 1;
-    }
-
-    code {
-      font-family: "JetBrains Mono", Menlo, Monaco, Consolas, "SF Mono", monospace;
-      white-space: pre;
-    }
-
-    .notes {
-      font-size: 0.8rem;
+    .mini-note {
+      margin-top: 4px;
+      font-size: 0.78rem;
       color: var(--muted);
-      margin-top: 6px;
       position: relative;
       z-index: 1;
     }
@@ -336,7 +300,6 @@
       position: relative;
       overflow: hidden;
 
-      /* Button animation */
       animation: pulse-soft 2.2s ease-in-out infinite;
       transform-origin: center;
     }
@@ -474,8 +437,7 @@
     }
 
     @keyframes pulse-soft {
-      0%,
-      100% {
+      0%, 100% {
         transform: scale(1);
       }
       50% {
@@ -484,8 +446,7 @@
     }
 
     @keyframes glow-soft {
-      0%,
-      100% {
+      0%, 100% {
         box-shadow: 0 0 12px rgba(4, 233, 140, 0.35);
       }
       50% {
@@ -515,7 +476,6 @@
       }
     }
 
-    /* Larger screens: enhance layout */
     @media (min-width: 768px) {
       body {
         padding: 22px;
@@ -555,7 +515,7 @@
       <div class="badge-row">
         <div class="badge">
           <span class="badge-dot"></span>
-          PromiseAPI v1.0
+          My Promises To You
         </div>
         <div class="badge">
           Happy Promise Day 💖
@@ -565,230 +525,166 @@
       <div class="title-row">
         <div class="title-block">
           <h1>
-            <!-- You can replace "Favorite Human" with her name -->
-            <span class="highlight">For My Favorite Human</span>
+            <!-- Change this to her name for extra feels -->
+            <span class="highlight">For My Favorite Person</span>
             <span>🧡</span>
           </h1>
           <p>
-            This is the official API documentation of my promises to you.
-            No bugs, no rollbacks, and yes… it comes with lifetime support (and unlimited cuddles).
+            I didn’t just want to say “Happy Promise Day” and send a message.
+            I wanted to write down the promises my heart has already made to you.
           </p>
         </div>
         <div class="meta">
-          <div><strong>Status:</strong> 200 OK</div>
+          <div><strong>From:</strong> Me</div>
           <span class="small">
-            Uptime target: ∞ days with you.<br />
-            Breaking change policy: <strong>Never.</strong>
+            Validity: forever.<br />
+            Conditions: just stay with me. 💫
           </span>
         </div>
       </div>
     </header>
 
     <main>
-      <!-- Left: Promise Endpoints -->
+      <!-- Left: Main Promises -->
       <section class="section">
         <h2>
           <span class="marker"></span>
-          Promise Endpoints
+          My Promises
         </h2>
 
         <article class="promise-card">
-          <div class="endpoint">
-            <div>GET /support</div>
-            <span class="method">RELATION-SAFE</span>
-          </div>
+          <div class="promise-title">1. I’ll be there on your bad days.</div>
           <div class="promise-text">
-            I promise to be there on your <span class="flirt">messy hair, sleepy eyes, “don’t-talk-to-me” days</span>,
-            not just on the cute selfie days. When life throws exceptions at you, I’ll be your
-            try-catch block.
+            Not just when you’re smiling and glowing,
+            but also on your <span class="flirt">tired, moody, “I don’t feel like talking”</span> days.
+            You won’t have to fight anything alone again.
           </div>
-          <pre><code>{
-  "description": "Standing by your side, no matter what.",
-  "behavior": "hold_hand, listen, hug, repeat",
-  "note": "You never have to fight anything alone again."
-}</code></pre>
+          <div class="mini-note">
+            I’ll bring hugs, patience, and if needed… chocolate. Always chocolate.
+          </div>
         </article>
 
         <article class="promise-card">
-          <div class="endpoint">
-            <div>POST /communication</div>
-            <span class="method">OPEN-CHANNEL</span>
-          </div>
+          <div class="promise-title">2. I’ll listen… really listen.</div>
           <div class="promise-text">
-            I promise to talk it out, not time out.
-            I’ll listen when you’re angry, overthink with you when you’re anxious,
-            and tease you gently when you’re being an adorable drama queen.
+            When you’re overthinking, over-explaining, or just ranting about your day,
+            I promise to listen with my full heart,
+            not just with half my attention on my phone.
           </div>
-          <pre><code>{
-  "rules": [
-    "no silent treatment",
-    "no 'I'm fine' bugs left unresolved",
-    "more 'let's fix this together'"
-  ],
-  "bonus": "free forehead kisses while we debug feelings"
-}</code></pre>
+          <div class="mini-note">
+            No “I’m fine” will be ignored. I’ll always want to know how you truly feel.
+          </div>
         </article>
 
         <article class="promise-card">
-          <div class="endpoint">
-            <div>PATCH /growth</div>
-            <span class="method">EVERGREEN</span>
-          </div>
+          <div class="promise-title">3. I’ll respect you, always.</div>
           <div class="promise-text">
-            I promise we’ll grow <span class="flirt">with</span> each other, not away from each other.
-            New dreams, new cities, new versions of us — I want every update with you in the changelog.
+            Your dreams, your boundaries, your pace, your emotions —
+            I promise to respect all of it.
+            You’ll never have to feel “too much” or “not enough” with me.
           </div>
-          <pre><code>{
-  "changelog": [
-    "v1.0 – we met",
-    "v2.0 – we fell in love",
-    "v∞ – still holding your hand when we're old"
-  ],
-  "compatibility": "100% with your ambitions"
-}</code></pre>
+          <div class="mini-note">
+            You are important. What you feel is important. To me, you are never “just overreacting”.
+          </div>
         </article>
 
         <article class="promise-card">
-          <div class="endpoint">
-            <div>GET /respect</div>
-            <span class="method">NON-NEGOTIABLE</span>
-          </div>
+          <div class="promise-title">4. I’ll choose us over my ego.</div>
           <div class="promise-text">
-            I promise to respect your boundaries, your space, your pace, and your dreams.
-            Your feelings won’t be treated as low priority tickets — they’re always critical, always mine to care for.
+            We might argue, we might disagree,
+            but I promise not to let ego win over us.
+            Even when I’m right (which is… sometimes 😏),
+            I’ll still value your heart more than being “right”.
           </div>
-          <pre><code>{
-  "priority": "you & your peace of mind",
-  "never": ["disrespect", "belittling", "taking you for granted"],
-  "always": ["hype you", "protect you", "choose you"]
-}</code></pre>
-        </article>
-
-        <article class="promise-card">
-          <div class="endpoint">
-            <div>DELETE /ego</div>
-            <span class="method">ONE-TIME OP</span>
+          <div class="mini-note">
+            Fights will end with “come here, let me hug you”, not “don’t talk to me”.
           </div>
-          <div class="promise-text">
-            I promise to choose <span class="flirt">us</span> over my ego.
-            Even when I’m right (which is… sometimes 😏), you are more important than winning an argument.
-          </div>
-          <pre><code>{
-  "deleted": ["ego", "unnecessary attitude"],
-  "kept": ["playful teasing", "flirting", "soft 'I'm sorry' hugs"],
-  "goal": "two teammates, one team"
-}</code></pre>
         </article>
       </section>
 
-      <!-- Right: Error Handling & Cute Stuff -->
+      <!-- Right: Cute Details & Future -->
       <section class="section">
         <h2>
           <span class="marker"></span>
-          Error Handling & Edge Cases
+          With You, Always
         </h2>
 
         <article class="promise-card">
-          <div class="endpoint">
-            <div>ERROR 500 – Bad Day Detected</div>
-            <span class="method">AUTO-RECOVERY</span>
-          </div>
+          <div class="promise-title">5. On your worst days… I stay.</div>
           <div class="promise-text">
-            When your mood crashes, system overheats, or you say
-            “leave me alone” but your eyes say “please stay”…
-            my fallback strategy will auto-trigger:
+            When you say “leave me alone” but your eyes say “please stay”,
+            I promise to understand the difference.
           </div>
           <ul class="heart-list">
             <li>
               <span class="icon">💗</span>
-              <span>Activate: silent side hugs + hair playing module.</span>
+              <span>Sit beside you in silence when words are too heavy.</span>
             </li>
             <li>
               <span class="icon">🍫</span>
-              <span>Deploy snacks / coffee / chocolate as required.</span>
+              <span>Show up with your favorite snacks or coffee.</span>
             </li>
             <li>
-              <span class="icon">👂</span>
-              <span>Listener mode: ON. Judgement: OFF.</span>
-            </li>
-            <li>
-              <span class="icon">😘</span>
-              <span>Emergency patch: forehead & cheek kisses until smile returns.</span>
+              <span class="icon">🤍</span>
+              <span>Hold your hand and remind you gently: “I’m not going anywhere.”</span>
             </li>
           </ul>
-          <div class="notes">
-            If issues persist, I will hold you tighter and repeat:
-            <span class="flirt">"You’re my favorite person, and I’m not going anywhere."</span>
+        </article>
+
+        <article class="promise-card">
+          <div class="promise-title">6. My loyalty is only yours.</div>
+          <div class="promise-text">
+            My attention, my energy, my heart —
+            all of it is yours.
+            I promise you honesty, faithfulness,
+            and a love that doesn’t sneak around in the dark.
+          </div>
+          <div class="mini-note">
+            No games. No half-love. Just you and me, clearly, openly, fully.
           </div>
         </article>
 
         <article class="promise-card">
-          <div class="endpoint">
-            <div>SECURITY /loyalty</div>
-            <span class="method">STRICT</span>
-          </div>
+          <div class="promise-title">7. I’ll keep the fun alive.</div>
           <div class="promise-text">
-            This heart has a single authorized user:
-            <span class="flirt">you</span>.  
-            No backups, no replicas, no shared access.
+            Random memes, surprise plans, sudden “get ready, we’re going out”
+            and unplanned “you look too cute, I need a kiss right now” moments —
+            I promise to keep giving you butterflies.
           </div>
-          <pre><code>{
-  "heart_owner": "you",
-  "auth_type": "permanent",
-  "policy": "no third-party access ever"
-}</code></pre>
+          <div class="mini-note">
+            Warning: side effects may include blushing, smiling alone, and missing me a lot. 🙈
+          </div>
         </article>
 
         <article class="promise-card">
-          <div class="endpoint">
-            <div>FUN /play</div>
-            <span class="method">ALWAYS-ON</span>
-          </div>
+          <div class="promise-title">8. I see a future with you.</div>
           <div class="promise-text">
-            I promise random memes, bad jokes, flirting in between serious texts,
-            and stealing kisses when you’re “busy” but look too cute to ignore.
+            This is not a timepass chapter for me.
+            I see you in my tomorrows, in my big decisions,
+            in my peaceful evenings and in my tired nights.
+            <span class="flirt">I want to grow old still laughing and flirting with you.</span>
           </div>
-          <pre><code>{
-  "random_events": [
-    "late-night 'I miss you' pings",
-    "sudden 'get ready, we’re going out' plans",
-    "unprovoked compliments about how hot you look"
-  ],
-  "side_effects": "blushing, butterflies, excessive smiling"
-}</code></pre>
-        </article>
-
-        <article class="promise-card">
-          <div class="endpoint">
-            <div>DEPLOY /lifetime</div>
-            <span class="method">ONE-COMMIT</span>
-          </div>
-          <div class="promise-text">
-            I promise that this isn’t a demo build.  
-            This is the long-term, stable, LTS version of us.  
-            <span class="flirt">And yes, I fully intend to keep loving you in every update.</span>
-          </div>
-          <div class="notes">
-            TL;DR: No uninstall option. No expiry. Just you, me, and an endless roadmap together.
+          <div class="mini-note">
+            No expiry date. No trial version. Just a lifetime kind of feeling.
           </div>
         </article>
 
         <div class="status-pill">
           <span class="status-dot"></span>
-          PromiseAPI deployed to: my heart 💗
+          All promises are active & live in my heart 💗
         </div>
       </section>
     </main>
 
     <footer class="footer">
       <button class="btn-primary" id="deployButton">
-        <span class="emoji">🚀</span>
-        <span>Deploy Promises</span>
+        <span class="emoji">✨</span>
+        <span>Tap to accept my promises</span>
       </button>
       <div class="footer-text">
         <strong>Happy Promise Day, love.</strong><br />
-        This isn’t just cute dev talk — it’s my real commitment to you.
-        Consider this my signed contract to keep choosing you, every single day.
+        These aren’t just pretty words on a screen — they’re the way I genuinely want to love you,
+        today and every day that comes after this.
       </div>
     </footer>
   </div>
@@ -796,8 +692,8 @@
   <div class="toast" id="toast">
     <span class="heart">💞</span>
     <div>
-      <strong>Deployment successful.</strong>
-      Your promises are now live in production: my life with you.
+      <strong>Promise saved.</strong>
+      All of this now officially belongs to you… and so do I. 💌
     </div>
   </div>
 
@@ -824,4 +720,3 @@
   </script>
 </body>
 </html>
-
